@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rive Animation</title>
+  <script src="https://unpkg.com/@rive-app/canvas"></script>
+  <style>
+    canvas {
+      width: 500px;
+      height: 500px;
+      display: block;
+      margin: auto;
+      background: #f0f0f0;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500"></canvas>
+
+  <script>
+    const r = new rive.Rive({
+      src: "slime_funny.riv", // The .riv file hosted in the same directory
+      canvas: document.getElementById("canvas"),
+      autoplay: true,
+      stateMachines: "State Machine 1", // Replace with the correct state machine name if needed
+      onLoad: () => {
+        console.log("Rive animation loaded successfully!");
+        r.resizeDrawingSurfaceToCanvas();
+      },
+      onError: (err) => {
+        console.error("Error loading Rive animation:", err);
+      },
+    });
+  </script>
+</body>
+</html>
