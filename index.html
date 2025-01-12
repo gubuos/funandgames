@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>fun and games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rive Animation with Image</title>
   <script src="https://unpkg.com/@rive-app/canvas"></script>
   <style>
     body {
@@ -17,56 +17,31 @@
     }
 
     canvas {
-      width: 80%; /* Responsive width */
-      height: auto; /* Maintain aspect ratio */
-      max-width: 500px; /* Maximum width of 500px */
-      background: transparent;
-      border: none;
+      width: 500px; /* Fixed width as per your original code */
+      height: 500px; /* Fixed height as per your original code */
+      background: transparent; /* Transparent background */
+      border: none; /* No border */
     }
 
     img {
-      margin-top: 20px; /* Adds space between canvas and image */
-      width: 300px; /* Adjust the size of the image */
-      height: auto; /* Keeps the aspect ratio */
+      margin-top: 20px; /* Adds space between the canvas and image */
+      width: 300px; /* Image width */
+      height: auto; /* Maintain aspect ratio */
     }
   </style>
 </head>
 <body>
   <canvas id="canvas" width="500" height="500"></canvas>
-  <img src="zunda-three-fourth.png" alt="noda" />
-  
+  <img src="zunda-three-fourth.png" alt="Image Below Animation" />
+
   <script>
     const r = new rive.Rive({
-      src: "slime_funny.riv", // Ensure the correct path
+      src: "slime_funny.riv", // Ensure the correct path to your .riv file
       canvas: document.getElementById("canvas"),
       autoplay: true,
-      stateMachines: "State Machine 1", // Ensure the correct state machine name
+      stateMachines: "State Machine 1", // Ensure this matches the state machine name in your Rive file
       onLoad: () => {
-        r.resizeDrawingSurfaceToCanvas();
-
-        // Find the state machine input for hover (adjust based on your Rive file)
-        const inputs = r.stateMachineInputs("State Machine 1");
-        const hoverInput = inputs.find(input => input.name === "Hover");
-
-        if (hoverInput) {
-          const canvasElement = document.getElementById("canvas");
-
-          // Trigger hover effect on mouseenter or touchstart
-          canvasElement.addEventListener("mouseenter", () => {
-            hoverInput.value = true;
-          });
-          canvasElement.addEventListener("touchstart", () => {
-            hoverInput.value = true;
-          });
-
-          // Trigger default animation on mouseleave or touchend
-          canvasElement.addEventListener("mouseleave", () => {
-            hoverInput.value = false;
-          });
-          canvasElement.addEventListener("touchend", () => {
-            hoverInput.value = false;
-          });
-        }
+        r.resizeDrawingSurfaceToCanvas(); // Resize to match canvas dimensions
       },
       onError: (err) => {
         console.error("Error loading Rive animation:", err);
