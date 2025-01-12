@@ -1,15 +1,51 @@
-<canvas id="canvas" width="500" height="500"></canvas>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fun and games</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-    <script src="https://unpkg.com/@rive-app/canvas"></script>
-    <script>
-      const r = new rive.Rive({
-        src: "slime_funny.riv",
-        canvas: document.getElementById("canvas"),
-        autoplay: true,
-        // artboard: "Arboard", // Optional. If not supplied the default is selected
-        stateMachines: "State Machine 1",
-        onLoad: () => {
-          // Ensure the drawing surface matches the canvas size and device pixel ratio
-          r.resizeDrawingSurfaceToCanvas();
-        },
-      });
+    canvas {
+      width: 500px; /* Fixed width as per your original code */
+      height: 500px; /* Fixed height as per your original code */
+      background: transparent; /* Transparent background */
+      border: none; /* No border */
+    }
+
+    img {
+      margin-top: 20px; /* Adds space between the canvas and image */
+      width: 300px; /* Image width */
+      height: auto; /* Maintain aspect ratio */
+    }
+  </style>
+</head>
+<body>
+  <!-- Your code is unchanged, only added image below -->
+  <canvas id="canvas" width="500" height="500"></canvas>
+  <img src="zunda-three-fourth.png" alt="Image Below Animation" />
+
+  <!-- Your code is untouched here -->
+  <script src="https://unpkg.com/@rive-app/canvas"></script>
+  <script>
+    const r = new rive.Rive({
+      src: "slime_funny.riv", // Ensure the correct path to your .riv file
+      canvas: document.getElementById("canvas"),
+      autoplay: true,
+      stateMachines: "State Machine 1", // Ensure this matches your Rive file's state machine
+      onLoad: () => {
+        // Ensure the drawing surface matches the canvas size and device pixel ratio
+        r.resizeDrawingSurfaceToCanvas();
+      },
+    });
+  </script>
+</body>
+</html>
