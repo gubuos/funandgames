@@ -4,34 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rive Animation</title>
-  <script src="https://unpkg.com/@rive-app/canvas"></script>
-  <style>
-    canvas {
-      width: 600px;
-      height: 600px;
-      display: block;
-      margin: auto;
-      background: transparent;
-    }
-  </style>
-</head>
-<body>
-  <canvas id="canvas" width="600" height="600"></canvas>
+<canvas id="canvas" width="900" height="600"></canvas>
 
-  <script>
-    const r = new rive.Rive({
-      src: "slime_funny.riv", // The .riv file hosted in the same directory
-      canvas: document.getElementById("canvas"),
-      autoplay: true,
-      stateMachines: "State Machine 1", // Replace with the correct state machine name if needed
-      onLoad: () => {
-        console.log("Rive animation loaded successfully!");
-        r.resizeDrawingSurfaceToCanvas();
-      },
-      onError: (err) => {
-        console.error("Error loading Rive animation:", err);
-      },
-    });
+    <script src="https://unpkg.com/@rive-app/canvas"></script>
+    <script>
+      const r = new rive.Rive({
+        src: "slime_funny.riv",
+        canvas: document.getElementById("canvas"),
+        autoplay: true,
+        // artboard: "Arboard", // Optional. If not supplied the default is selected
+        stateMachines: "State Machine 1",
+        onLoad: () => {
+          // Ensure the drawing surface matches the canvas size and device pixel ratio
+          r.resizeDrawingSurfaceToCanvas();
+        },
+      });
   </script>
   <img src="zunda-three-fourth.png" alt="noda" />
 </body>
