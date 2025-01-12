@@ -2,24 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rive Animation</title>
-<canvas id="canvas" width="900" height="600"></canvas>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rive Animation with Image</title>
+  <script src="https://unpkg.com/@rive-app/canvas"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
 
-    <script src="https://unpkg.com/@rive-app/canvas"></script>
-    <script>
-      const r = new rive.Rive({
-        src: "slime_funny.riv",
-        canvas: document.getElementById("canvas"),
-        autoplay: true,
-        // artboard: "Arboard", // Optional. If not supplied the default is selected
-        stateMachines: "State Machine 1",
-        onLoad: () => {
-          // Ensure the drawing surface matches the canvas size and device pixel ratio
-          r.resizeDrawingSurfaceToCanvas();
-        },
-      });
+    canvas {
+      width: 80%; /* Responsive width */
+      height: auto; /* Maintain aspect ratio */
+      max-width: 500px; /* Maximum width of 500px */
+      background: transparent;
+      border: none;
+    }
+
+    img {
+      margin-top: 20px; /* Adds space between canvas and image */
+      width: 300px; /* Adjust the size of the image */
+      height: auto; /* Keeps the aspect ratio */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="500" height="500"></canvas>
+  <img src="your-image.jpg" alt="Image Below Animation" />
+  
+  <script>
+    const r = new rive.Rive({
+      src: "slime_funny.riv", // Ensure the correct path
+      canvas: document.getElementById("canvas"),
+      autoplay: true,
+      stateMachines: "State Machine 1", // Ensure the correct state machine name
+      onLoad: () => {
+        r.resizeDrawingSurfaceToCanvas();
+
+        // Find the state machine input for hover (adjust based on your Rive file)
+        const inputs = r.stateMachineInputs("State Machine 1");
+        const hoverInput = inputs.find(input => input.name === "Hover");
+
+        if (hoverInput) {
+          const canvasElement = document.getElementById("canvas");
+
+          // Trigger hover effect on mouseenter or touchstart
+          canvasElement.addEventListener("mouseenter", () => {
+            hoverInput.value = true;
+          });
+          canvasElement.addEventListener("touchstart", () => {
+            hoverInput.value = true;
+          });
+
+          // Trigger default animation on mouseleave or touchend
+          canvasElement.addEventListener("mouseleave", () => {
+            hoverInput.value = false;
+          });
+          canvasElement.addEventListener("touchend", () => {
+            hoverInput.value = false;
+          });
+        }
+      },
+      onError: (err) => {
+        console.error("Error loading Rive animation:", err);
+      },
+    });
   </script>
-  <img src="zunda-three-fourth.png" alt="noda" />
 </body>
 </html>
