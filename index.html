@@ -12,9 +12,9 @@
         padding: 0;
         height: 100vh;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 20px; /* Add space between the canvases */
       }
 
       canvas {
@@ -25,16 +25,34 @@
   </head>
 
   <body>
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="canvas1" width="700" height="700"></canvas>
+    <canvas id="canvas2" width="700" height="700"></canvas>
+
     <script>
-      const r = new rive.Rive({
-        src: "slime_funny.riv",
-        canvas: document.getElementById("canvas"),
+      // First Rive animation
+      const rive1 = new rive.Rive({
+        src: "slime_funny.riv", // Path to the first Rive file
+        canvas: document.getElementById("canvas1"),
         autoplay: true,
         stateMachines: "State Machine 1",
         onLoad: () => {
-          r.resizeDrawingSurfaceToCanvas();
-          const renderer = r.renderer;
+          rive1.resizeDrawingSurfaceToCanvas();
+          const renderer = rive1.renderer;
+          if (renderer) {
+            renderer.clear();
+          }
+        },
+      });
+
+      // Second Rive animation
+      const rive2 = new rive.Rive({
+        src: "Deluxe shark.riv", // Path to the second Rive file (can be the same or different)
+        canvas: document.getElementById("canvas2"),
+        autoplay: true,
+        stateMachines: "State Machine 1",
+        onLoad: () => {
+          rive2.resizeDrawingSurfaceToCanvas();
+          const renderer = rive2.renderer;
           if (renderer) {
             renderer.clear();
           }
@@ -44,3 +62,4 @@
   </body>
 
 </html>
+
