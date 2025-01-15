@@ -26,14 +26,15 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        border: 1px solid #ccc;
       }
 
       canvas {
         width: 80%; /* Make the project inside a bit smaller */
         height: 80%;
-        background: transparent !important;
+        background: rgb(236, 236, 236);
         display: block;
+        border-radius: 15px; /* Adjust this value for roundness */
+
       }
 
       @media (max-width: 768px) {
@@ -43,7 +44,7 @@
         }
       }
     </style>
-    <title>Dynamic Rive Grid</title>
+    <title>Rive Portfolio OGB</title>
   </head>
 
   <body>
@@ -55,18 +56,16 @@
       const folderPath = "Rive projects"; // Adjust to the folder where .riv files are stored
 
       // GitHub API URL for the specified folder
-      const githubApiUrl = `https://api.github.com/repos/gubuos/funandgames/contents/Rive%20projects
-`;
+      const githubApiUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/contents/${folderPath}`;
 
       // Function to initialize a Rive animation
       function initializeRiveAnimation(riveConfig, canvas) {
-        new rive.Rive({
+        const riveInstance = new rive.Rive({
           src: riveConfig.src,
           canvas: canvas,
           autoplay: true,
-          stateMachines: riveConfig.stateMachine || null,
+          stateMachines: riveConfig.stateMachine || null, // Pass dynamic state machine if it exists
           onLoad: () => {
-            const riveInstance = new rive.Rive();
             riveInstance.resizeDrawingSurfaceToCanvas();
             const renderer = riveInstance.renderer;
             if (renderer) {
@@ -87,9 +86,12 @@
           const files = await response.json();
           const riveFiles = files
             .filter(file => file.name.endsWith(".riv")) // Only include .riv files
-            .map(file => file.download_url); // Get the raw file URL
+            .map(file => ({
+              url: `https://raw.githubusercontent.com/${githubUsername}/${repoName}/${branch}/${folderPath}/${file.name}`, // Get raw URL
+              name: file.name,
+            }));
 
-          riveFiles.forEach((fileUrl, index) => {
+          riveFiles.forEach((fileData, index) => {
             // Create container div
             const container = document.createElement("div");
             container.classList.add("canvas-container");
@@ -102,8 +104,11 @@
             container.appendChild(canvas);
             document.body.appendChild(container);
 
-            // Initialize Rive animation
-            initializeRiveAnimation({ src: fileUrl }, canvas);
+            // Check the state machine for each Rive file (if any)
+            const stateMachine = "State Machine 1"; // Replace with the actual state machine name for your files or dynamically detect
+
+            // Initialize Rive animation with the correct state machine
+            initializeRiveAnimation({ src: fileData.url, stateMachine: stateMachine }, canvas);
           });
         } catch (error) {
           console.error("Error loading Rive files:", error);
