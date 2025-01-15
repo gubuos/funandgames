@@ -12,21 +12,51 @@
         padding: 0;
         height: 100vh;
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 20px; /* Add space between the canvases */
+        gap: 20px;
+        overflow-x: auto; /* Allow horizontal scroll for smaller devices */
+      }
+
+      .canvas-container {
+        width: 600px;
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
       }
 
       canvas {
+        width: 80%; /* Make the project inside a bit smaller */
+        height: 80%;
         background: transparent !important;
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .canvas-container {
+          width: 100%;
+          height: auto;
+        }
       }
     </style>
     <title>A Fun Slime!</title>
   </head>
 
   <body>
-    <canvas id="canvas1" width="700" height="700"></canvas>
-    <canvas id="canvas2" width="700" height="700"></canvas>
+    <div class="canvas-container">
+      <canvas id="canvas1"></canvas>
+    </div>
+    <div class="canvas-container">
+      <canvas id="canvas2"></canvas>
+    </div>
+
+    <!-- Add more canvas containers as needed -->
+    <!-- <div class="canvas-container">
+      <canvas id="canvas3"></canvas>
+    </div> -->
 
     <script>
       // First Rive animation
