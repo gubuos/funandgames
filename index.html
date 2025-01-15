@@ -16,16 +16,17 @@
         justify-content: center;
         align-items: center;
         gap: 20px;
-        overflow-x: auto; /* Allow horizontal scroll for smaller devices */
+        overflow-x: auto;
       }
 
       .canvas-container {
-        width: 600px;
-        height: 600px;
+        width: 500px;
+        height: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
+        border: 1px solid #ccc;
       }
 
       canvas {
@@ -42,54 +43,76 @@
         }
       }
     </style>
-    <title>A Fun Slime!</title>
+    <title>Dynamic Rive Grid</title>
   </head>
 
   <body>
-    <div class="canvas-container">
-      <canvas id="canvas1"></canvas>
-    </div>
-    <div class="canvas-container">
-      <canvas id="canvas2"></canvas>
-    </div>
-
-    <!-- Add more canvas containers as needed -->
-    <!-- <div class="canvas-container">
-      <canvas id="canvas3"></canvas>
-    </div> -->
-
     <script>
-      // First Rive animation
-      const rive1 = new rive.Rive({
-        src: "slime_funny.riv", // Path to the first Rive file
-        canvas: document.getElementById("canvas1"),
-        autoplay: true,
-        stateMachines: "State Machine 1",
-        onLoad: () => {
-          rive1.resizeDrawingSurfaceToCanvas();
-          const renderer = rive1.renderer;
-          if (renderer) {
-            renderer.clear();
-          }
-        },
-      });
+      // Your GitHub repository details
+      const githubUsername = "gubuos";
+      const repoName = "funandgames";
+      const branch = "main"; // or another branch name
+      const folderPath = "Rive projects"; // Adjust to the folder where .riv files are stored
 
-      // Second Rive animation
-      const rive2 = new rive.Rive({
-        src: "Deluxe shark.riv", // Path to the second Rive file (can be the same or different)
-        canvas: document.getElementById("canvas2"),
-        autoplay: true,
-        stateMachines: "State Machine 1",
-        onLoad: () => {
-          rive2.resizeDrawingSurfaceToCanvas();
-          const renderer = rive2.renderer;
-          if (renderer) {
-            renderer.clear();
+      // GitHub API URL for the specified folder
+      const githubApiUrl = `https://api.github.com/repos/gubuos/funandgames/contents/Rive%20projects
+`;
+
+      // Function to initialize a Rive animation
+      function initializeRiveAnimation(riveConfig, canvas) {
+        new rive.Rive({
+          src: riveConfig.src,
+          canvas: canvas,
+          autoplay: true,
+          stateMachines: riveConfig.stateMachine || null,
+          onLoad: () => {
+            const riveInstance = new rive.Rive();
+            riveInstance.resizeDrawingSurfaceToCanvas();
+            const renderer = riveInstance.renderer;
+            if (renderer) {
+              renderer.clear();
+            }
+          },
+        });
+      }
+
+      // Fetch .riv files from GitHub
+      async function loadRiveFiles() {
+        try {
+          const response = await fetch(githubApiUrl);
+          if (!response.ok) {
+            throw new Error(`Error fetching files: ${response.status}`);
           }
-        },
-      });
+
+          const files = await response.json();
+          const riveFiles = files
+            .filter(file => file.name.endsWith(".riv")) // Only include .riv files
+            .map(file => file.download_url); // Get the raw file URL
+
+          riveFiles.forEach((fileUrl, index) => {
+            // Create container div
+            const container = document.createElement("div");
+            container.classList.add("canvas-container");
+
+            // Create canvas element
+            const canvas = document.createElement("canvas");
+            canvas.id = `canvas${index + 1}`;
+
+            // Append canvas to container and container to body
+            container.appendChild(canvas);
+            document.body.appendChild(container);
+
+            // Initialize Rive animation
+            initializeRiveAnimation({ src: fileUrl }, canvas);
+          });
+        } catch (error) {
+          console.error("Error loading Rive files:", error);
+        }
+      }
+
+      // Load Rive files on page load
+      loadRiveFiles();
     </script>
   </body>
 
 </html>
-
